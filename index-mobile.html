@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitas ao Técnico - Dashboard</title>
+  
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style-mobile.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Cortina para fechar sidebar no celular -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Menu Lateral -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="sidebar-brand">
+      <img src="img/logo (2).png" alt="Logo" class="sidebar-logo-img" onerror="this.style.display='none'; document.getElementById('sidebar-fallback').style.display='inline-block';">
+      <i id="sidebar-fallback" class="bi bi-shield-check brand-fallback-icon" style="display:none;"></i>
+      <span>Visitas ao Técnico</span>
+    </div>
+
+    <nav class="sidebar-menu">
+    <!-- Link para o Dashboard / Tela Inicial -->
+    <a href="index-mobile.html" class="menu-item">
+      <i class="bi bi-grid-1x2-fill"></i> Dashboard
+    </a>
+    
+    <!-- Link para Detalhes / Lista de Visitas -->
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-calendar3"></i> Visitas
+    </a>
+    
+    <!-- Link para Nova Visita -->
+    <a href="nova-visita-mobile.html" class="menu-item">
+      <i class="bi bi-plus-circle"></i> Nova Visita
+    </a>
+    
+    <!-- Demais links (defina # se ainda não tiver a página criada) -->
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-people"></i> Clientes
+    </a>
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-tools"></i> Técnicos
+    </a>
+  </nav>
+
+  
+    <div class="sidebar-footer">
+      <div class="profile-card" id="userProfileBtn">
+        <div class="user-avatar"><i class="bi bi-person"></i></div>
+        <div class="user-details">
+          <span class="user-name">Camille Oliveira</span>
+          <span class="user-role">Administradora</span>
+        </div>
+        <i class="bi bi-chevron-down chevron"></i>
+      </div>
+
+      <a href="login-mobile.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main class="page-content">
+    
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnToggleSidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <div>
+          <h1 class="page-title">Olá, Usuário</h1>
+          <p class="page-subtitle">Bem-vindo ao Sistema de Visitas Técnicas</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Switch de Tema -->
+        <div class="theme-switcher">
+          <button class="theme-btn active" id="btnThemeLight" title="Modo Claro">
+            <i class="bi bi-sun"></i>
+          </button>
+          <button class="theme-btn" id="btnThemeDark" title="Modo Escuro">
+            <i class="bi bi-moon"></i>
+          </button>
+        </div>
+
+        <!-- Notificações -->
+        <button class="btn-icon notification-btn" title="Notificações">
+          <i class="bi bi-bell"></i>
+          <span class="dot-badge">3</span>
+        </button>
+
+        <!-- Avatar Topo -->
+        <div class="header-avatar">
+          <i class="bi bi-person"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Indicadores KPI -->
+    <section class="kpi-row">
+      <div class="kpi-cards">
+        <div class="kpi-card">
+          <div class="kpi-icon icon-blue"><i class="bi bi-calendar-event"></i></div>
+          <div class="kpi-info">
+            <span class="title">Total de Visitas</span>
+            <span class="number">152</span>
+            <span class="period">Este mês</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon icon-purple"><i class="bi bi-clock-history"></i></div>
+          <div class="kpi-info">
+            <span class="title">Agendadas</span>
+            <span class="number">45</span>
+            <span class="period">Este mês</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon icon-green"><i class="bi bi-check-circle"></i></div>
+          <div class="kpi-info">
+            <span class="title">Concluídas</span>
+            <span class="number">82</span>
+            <span class="period">Este mês</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon icon-red"><i class="bi bi-x-circle"></i></div>
+          <div class="kpi-info">
+            <span class="title">Canceladas</span>
+            <span class="number">12</span>
+            <span class="period">Este mês</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon icon-amber"><i class="bi bi-play-circle"></i></div>
+          <div class="kpi-info">
+            <span class="title">Em Andamento</span>
+            <span class="number">13</span>
+            <span class="period">Hoje</span>
+          </div>
+        </div>
+      </div>
+
+    <!-- Depois (Pronto para navegar): -->
+     <a href="nova-visita-mobile.html" class="btn-primary-action" style="text-decoration: none;">
+       <i class="bi bi-plus-lg"></i> Adicionar Visita
+     </a>
+
+    <!-- Painéis do Dashboard -->
+    <div class="dashboard-content">
+      
+      <!-- Visitas de Hoje -->
+      <section class="card-panel visits-panel">
+        <div class="panel-header">
+          <h2>Visitas de Hoje <span class="date-highlight" id="currentDateLabel">(22/09/2026)</span></h2>
+          <select class="select-filter" id="periodFilter">
+            <option value="hoje">Hoje</option>
+            <option value="amanha">Amanhã</option>
+            <option value="semana">Esta Semana</option>
+          </select>
+        </div>
+
+        <div class="visit-items">
+          <!-- Item 1 -->
+          <div class="visit-card border-amber">
+            <div class="time">08:00</div>
+            <div class="info">
+              <h3><strong>Cliente:</strong> João da Silva</h3>
+              <p><i class="bi bi-geo-alt"></i> Endereço: Rua das Flores, 123 - Recife/PE</p>
+              <p><i class="bi bi-person-badge"></i> Técnico: Lucas Andrade</p>
+            </div>
+            <div class="action-box">
+              <span class="tag tag-amber">Em andamento</span>
+              <a href="detalhes-visita-mobile.html?cliente=João da Silva&tecnico=Lucas Andrade&endereco=Rua das Flores, 123 - Recife/PE" class="btn-detail" style="text-decoration:none;">Ver detalhes</a>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="visit-card border-blue">
+            <div class="time">10:30</div>
+            <div class="info">
+              <h3><strong>Cliente:</strong> Maria Oliveira</h3>
+              <p><i class="bi bi-geo-alt"></i> Endereço: Av. Boa Viagem, 456 - Recife/PE</p>
+              <p><i class="bi bi-person-badge"></i> Técnico: Ana Beatriz</p>
+            </div>
+            <div class="action-box">
+              <span class="tag tag-blue">Agendada</span>
+              <a href="detalhes-visita-mobile.html?cliente=Maria Oliveira&tecnico=Ana Beatriz&endereco=Av. Boa Viagem, 456 - Recife/PE" class="btn-detail" style="text-decoration:none;">Ver detalhes</a>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="visit-card border-blue">
+            <div class="time">14:00</div>
+            <div class="info">
+              <h3><strong>Cliente:</strong> Empresa ABC Ltda.</h3>
+              <p><i class="bi bi-geo-alt"></i> Endereço: Rua do Sol, 789 - Olinda/PE</p>
+              <p><i class="bi bi-person-badge"></i> Técnico: Lucas Andrade</p>
+            </div>
+            <div class="action-box">
+              <span class="tag tag-blue">Agendada</span>
+              <a href="detalhes-visita-mobile.html?cliente=Empresa ABC Ltda.&tecnico=Lucas Andrade&endereco=Rua do Sol, 789 - Olinda/PE" class="btn-detail" style="text-decoration:none;">Ver detalhes</a>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="visit-card border-red">
+            <div class="time">16:30</div>
+            <div class="info">
+              <h3><strong>Cliente:</strong> José Pereira</h3>
+              <p><i class="bi bi-geo-alt"></i> Endereço: Av. Caxangá, 321 - Recife/PE</p>
+              <p><i class="bi bi-person-badge"></i> Técnico: Carlos Souza</p>
+            </div>
+            <div class="action-box">
+              <span class="tag tag-red">Cancelada</span>
+              <a href="detalhes-visita-mobile.html?cliente=José Pereira&tecnico=Carlos Souza&endereco=Av. Caxangá, 321 - Recife/PE" class="btn-detail" style="text-decoration:none;">Ver detalhes</a>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="visit-card border-green">
+            <div class="time">17:45</div>
+            <div class="info">
+              <h3><strong>Cliente:</strong> Fernanda Lima</h3>
+              <p><i class="bi bi-geo-alt"></i> Endereço: Av. da Aurora, 654 - Recife/PE</p>
+              <p><i class="bi bi-person-badge"></i> Técnico: Ana Beatriz</p>
+            </div>
+            <div class="action-box">
+              <span class="tag tag-green">Concluída</span>
+              <a href="detalhes-visita-mobile.html?cliente=Fernanda Lima&tecnico=Ana Beatriz&endereco=Av. da Aurora, 654 - Recife/PE" class="btn-detail" style="text-decoration:none;">Ver detalhes</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <a href="#" class="link-more">Ver todas as visitas <i class="bi bi-chevron-right"></i></a>
+        </div>
+      </section>
+
+      <!-- Coluna Direita (Agenda & Próximas Visitas) -->
+      <aside class="right-column">
+        
+        <!-- Agenda -->
+        <div class="card-panel calendar-panel">
+          <div class="panel-header">
+            <h2>Agenda de Visitas</h2>
+            <div class="calendar-controls">
+              <button class="btn-arrow"><i class="bi bi-chevron-left"></i></button>
+              <span>Setembro 2026</span>
+              <button class="btn-arrow"><i class="bi bi-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <div class="mini-calendar">
+            <div class="cal-head">Dom</div><div class="cal-head">Seg</div><div class="cal-head">Ter</div><div class="cal-head">Qua</div><div class="cal-head">Qui</div><div class="cal-head">Sex</div><div class="cal-head">Sáb</div>
+
+            <div class="cal-day muted">28</div><div class="cal-day muted">29</div><div class="cal-day muted">30</div>
+            <div class="cal-day">1<span class="dot blue"></span></div>
+            <div class="cal-day">2<span class="dot amber"></span></div>
+            <div class="cal-day">3<span class="dot purple"></span></div>
+            <div class="cal-day">4<span class="dot purple"></span></div>
+
+            <div class="cal-day">5</div>
+            <div class="cal-day">6<span class="dot red"></span></div>
+            <div class="cal-day">7<span class="dot green"></span></div>
+            <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div>
+
+            <div class="cal-day">12<span class="dot green"></span></div>
+            <div class="cal-day">13<span class="dot green"></span></div>
+            <div class="cal-day">14<span class="dot green"></span></div>
+            <div class="cal-day">15<span class="dot blue"></span></div>
+            <div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div>
+
+            <div class="cal-day">19</div><div class="cal-day">20</div>
+            <div class="cal-day">21<span class="dot amber"></span></div>
+            <div class="cal-day active">22</div>
+            <div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div>
+
+            <div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day">31</div>
+            <div class="cal-day muted">1</div>
+          </div>
+
+          <div class="calendar-legend">
+            <span><i class="legend-icon blue"></i> Agendada</span>
+            <span><i class="legend-icon green"></i> Concluída</span>
+            <span><i class="legend-icon red"></i> Cancelada</span>
+            <span><i class="legend-icon amber"></i> Em andamento</span>
+          </div>
+        </div>
+
+        <!-- Próximas Visitas -->
+        <div class="card-panel next-visits-panel">
+          <div class="panel-header">
+            <h2>Próximas Visitas</h2>
+            <a href="#" class="link-sm">Ver todas <i class="bi bi-chevron-right"></i></a>
+          </div>
+
+          <div class="next-items">
+            <div class="next-item">
+              <div class="item-icon"><i class="bi bi-calendar-event"></i></div>
+              <div class="item-details">
+                <h4><strong>Cliente:</strong> Carlos Pereira</h4>
+                <p>23/09/2026 - 09:00</p>
+              </div>
+              <span class="tag tag-blue">Agendada</span>
+              <i class="bi bi-chevron-right item-arrow"></i>
+            </div>
+
+            <div class="next-item">
+              <div class="item-icon"><i class="bi bi-calendar-event"></i></div>
+              <div class="item-details">
+                <h4><strong>Cliente:</strong> Residencial Parque</h4>
+                <p>23/09/2026 - 14:30</p>
+              </div>
+              <span class="tag tag-blue">Agendada</span>
+              <i class="bi bi-chevron-right item-arrow"></i>
+            </div>
+
+            <div class="next-item">
+              <div class="item-icon"><i class="bi bi-calendar-event"></i></div>
+              <div class="item-details">
+                <h4><strong>Cliente:</strong> Loja Total</h4>
+                <p>24/09/2026 - 10:20</p>
+              </div>
+              <span class="tag tag-blue">Agendada</span>
+              <i class="bi bi-chevron-right item-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <script src="script-mobile.js"></script>
+</body>
+</html>

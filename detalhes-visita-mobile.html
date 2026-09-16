@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitas ao Técnico - Detalhes da Visita</title>
+  
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style-mobile.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Cortina para fechar sidebar no celular -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Menu Lateral -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="sidebar-brand">
+      <img src="img/logo (2).png" alt="Logo" class="sidebar-logo-img" onerror="this.style.display='none'; document.getElementById('sidebar-fallback').style.display='inline-block';">
+      <i id="sidebar-fallback" class="bi bi-shield-check brand-fallback-icon" style="display:none;"></i>
+      <span>Visitas ao Técnico</span>
+    </div>
+
+    <nav class="sidebar-menu">
+    <!-- Link para o Dashboard / Tela Inicial -->
+    <a href="index-mobile.html" class="menu-item">
+      <i class="bi bi-grid-1x2-fill"></i> Dashboard
+    </a>
+    
+    <!-- Link para Detalhes / Lista de Visitas -->
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-calendar3"></i> Visitas
+    </a>
+    
+    <!-- Link para Nova Visita -->
+    <a href="nova-visita-mobile.html" class="menu-item">
+      <i class="bi bi-plus-circle"></i> Nova Visita
+    </a>
+    
+    <!-- Demais links (defina # se ainda não tiver a página criada) -->
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-people"></i> Clientes
+    </a>
+    <a href="visitas-mobile.html" class="menu-item">
+      <i class="bi bi-tools"></i> Técnicos
+    </a>
+  </nav>
+
+    <div class="sidebar-footer">
+      <div class="profile-card" id="userProfileBtn">
+        <div class="user-avatar"><i class="bi bi-person"></i></div>
+        <div class="user-details">
+          <span class="user-name">Camila Oliveira</span>
+          <span class="user-role">Administradora</span>
+        </div>
+        <i class="bi bi-chevron-down chevron"></i>
+      </div>
+
+      <a href="login-mobile.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main class="page-content">
+    
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnToggleSidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <div>
+          <h1 class="page-title">Detalhes da Visita</h1>
+          <p class="page-subtitle">Informações completas da visita agendada</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Switch de Tema -->
+        <div class="theme-switcher">
+          <button class="theme-btn active" id="btnThemeLight" title="Modo Claro">
+            <i class="bi bi-sun"></i>
+          </button>
+          <button class="theme-btn" id="btnThemeDark" title="Modo Escuro">
+            <i class="bi bi-moon"></i>
+          </button>
+        </div>
+
+        <!-- Notificações -->
+        <button class="btn-icon notification-btn" title="Notificações">
+          <i class="bi bi-bell"></i>
+          <span class="dot-badge">3</span>
+        </button>
+
+        <!-- Avatar Topo -->
+        <div class="header-avatar">
+          <i class="bi bi-person"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra Superior de Ações/Voltar -->
+    <div class="details-top-bar">
+      <a href="index-mobile.html" class="btn-back">
+        <i class="bi bi-arrow-left"></i> Voltar para a lista
+      </a>
+      <span class="tag tag-blue" id="mainStatusTag">Agendada</span>
+    </div>
+
+    <!-- Layout dos Painéis -->
+    <div class="dashboard-content details-grid">
+      
+      <!-- Coluna Principal (Informações da Visita + Participantes) -->
+      <div class="main-details-column">
+        
+        <!-- Cartão de Informações Gerais -->
+        <section class="card-panel">
+          <div class="details-list">
+            
+            <!-- ID e Data/Hora -->
+            <div class="detail-row">
+              <div class="detail-icon"><i class="bi bi-calendar-event"></i></div>
+              <div class="detail-content">
+                <div class="detail-header-title">
+                  <h3 id="visitIdLabel">Visita #00126</h3>
+                  <span class="tag tag-blue">Agendada</span>
+                </div>
+                <p id="visitDateLabel">26 de Setembro de 2026 - 08:00</p>
+              </div>
+            </div>
+
+            <!-- Cliente e Endereço -->
+            <div class="detail-row">
+              <div class="detail-icon"><i class="bi bi-person"></i></div>
+              <div class="detail-content">
+                <span class="detail-label">Cliente</span>
+                <strong class="detail-title" id="visitClientLabel">João da Silva</strong>
+                <p id="visitAddressLabel">Endereço: Rua das Flores, 123 - Recife/PE</p>
+              </div>
+            </div>
+
+            <!-- Técnico -->
+            <div class="detail-row">
+              <div class="detail-icon"><i class="bi bi-person-badge"></i></div>
+              <div class="detail-content">
+                <span class="detail-label">Técnico</span>
+                <strong class="detail-title" id="visitTechLabel">Lucas Andrade</strong>
+                <p>Técnico responsável</p>
+              </div>
+            </div>
+
+            <!-- Observações -->
+            <div class="detail-row">
+              <div class="detail-icon"><i class="bi bi-chat-left-text"></i></div>
+              <div class="detail-content">
+                <span class="detail-label">Observações</span>
+                <p class="detail-obs" id="visitObsLabel">Cliente solicitou o técnico para verificar problema na rede elétrica. Levar ferramentas completas.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Cartão de Participantes -->
+        <section class="card-panel participants-panel">
+          <div class="panel-header">
+            <h2>Participantes (3)</h2>
+            <a href="participantes-mobile.html" class="link-sm">Ver todos</a>
+          </div>
+
+          <div class="participants-list">
+            
+            <!-- Participante 1 -->
+            <div class="participant-item">
+              <div class="participant-avatar"><i class="bi bi-person"></i></div>
+              <div class="participant-info">
+                <h4>João da Silva</h4>
+                <p>Cliente</p>
+              </div>
+              <span class="tag tag-green">Presente</span>
+            </div>
+
+            <!-- Participante 2 -->
+            <div class="participant-item">
+              <div class="participant-avatar"><i class="bi bi-person"></i></div>
+              <div class="participant-info">
+                <h4>Lucas Andrade</h4>
+                <p>Técnico</p>
+              </div>
+              <span class="tag tag-green">Presente</span>
+            </div>
+
+            <!-- Participante 3 -->
+            <div class="participant-item">
+              <div class="participant-avatar"><i class="bi bi-person"></i></div>
+              <div class="participant-info">
+                <h4>Maria Souza</h4>
+                <p>Acompanhante</p>
+              </div>
+              <span class="tag tag-amber">Pendente</span>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Coluna Direita (Menu de Ações) -->
+<aside class="right-column">
+  <div class="card-panel actions-panel">
+    <h2>Ações</h2>
+
+    <div class="action-buttons-list">
+      <!-- Botão Editar com ID -->
+      <button class="btn-action-outline" id="btnEditVisit">
+        <i class="bi bi-pencil-square"></i> Editar Visita
+      </button>
+      
+      <!-- Botão Cancelar com ID -->
+      <button class="btn-action-danger" id="btnCancelVisit">
+        <i class="bi bi-x-circle"></i> Cancelar Visita
+      </button>
+      
+      <button class="btn-action-outline" id="btnAddParticipant">
+        <i class="bi bi-person-plus"></i> Adicionar Participantes
+      </button>
+      
+      <button class="btn-action-outline" onclick="window.print()">
+        <i class="bi bi-printer"></i> Imprimir
+      </button>
+    </div>
+  </div>
+</aside>
+
+    </div>
+  </main>
+
+  <script src="script-mobile.js"></script>
+
+  <!-- Modal de Confirmação de Cancelamento -->
+<div class="modal-overlay" id="modalCancelVisit">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Cancelar Visita</h3>
+      <button class="btn-close-modal" id="btnCloseCancelModal"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>Tem certeza que deseja cancelar esta visita? Esta ação alterará o status da visita para <strong>Cancelada</strong>.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary-action" id="btnKeepVisit">Voltar</button>
+      <button type="button" class="btn-action-danger" id="btnConfirmCancel">Sim, Cancelar Visita</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
