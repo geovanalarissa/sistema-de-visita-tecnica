@@ -1,226 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visitas ao Técnico - Nova Visita</title>
-  
-  <!-- Bootstrap Icons CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Visita</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/style.css') }}">
 </head>
-<body class="dashboard-body">
+<body>
+    <main>
+        <h1>Nova Visita</h1>
 
-  <!-- Cortina para fechar sidebar no celular -->
-  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+        <form id="formNovaVisita" class="visit-form" method="POST" action="/visitas">
 
-  <!-- Menu Lateral -->
-  <aside class="sidebar" id="mainSidebar">
-    <div class="sidebar-brand">
-      <img src="img/logo (2).png" alt="Logo" class="sidebar-logo-img" onerror="this.style.display='none'; document.getElementById('sidebar-fallback').style.display='inline-block';">
-      <i id="sidebar-fallback" class="bi bi-shield-check brand-fallback-icon" style="display:none;"></i>
-      <span>Visitas ao Técnico</span>
-    </div>
-
-   <nav class="sidebar-menu">
-    <!-- Link para o Dashboard / Tela Inicial -->
-    <a href="index.html" class="menu-item">
-      <i class="bi bi-grid-1x2-fill"></i> Dashboard
-    </a>
-    
-    <!-- Link para Detalhes / Lista de Visitas -->
-    <a href="visitas.html" class="menu-item">
-      <i class="bi bi-calendar3"></i> Visitas
-    </a>
-    
-    <!-- Link para Nova Visita -->
-    <a href="nova-visita.html" class="menu-item">
-      <i class="bi bi-plus-circle"></i> Nova Visita
-    </a>
-    
-    <a href="visitas.html" class="menu-item">
-      <i class="bi bi-people"></i> Clientes
-    </a>
-    <a href="visitas.html" class="menu-item">
-      <i class="bi bi-tools"></i> Técnicos
-    </a>
-  </nav>
-
-    <div class="sidebar-footer">
-      <div class="profile-card" id="userProfileBtn">
-        <div class="user-avatar"><i class="bi bi-person"></i></div>
-        <div class="user-details">
-          <span class="user-name">Camila Oliveira</span>
-          <span class="user-role">Administradora</span>
-        </div>
-        <i class="bi bi-chevron-down chevron"></i>
-      </div>
-
-      <a href="login.html" class="btn-logout">
-        <i class="bi bi-box-arrow-right"></i> Sair
-      </a>
-    </div>
-  </aside>
-
-  <!-- Conteúdo Principal -->
-  <main class="page-content">
-    
-    <!-- Topbar -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="btn-menu-toggle" id="btnToggleSidebar">
-          <i class="bi bi-list"></i>
-        </button>
-        <div>
-          <h1 class="page-title">Nova Visita</h1>
-          <p class="page-subtitle">Preencha os dados da visita para agendar</p>
-        </div>
-      </div>
-
-      <div class="topbar-right">
-        <!-- Switch de Tema -->
-        <div class="theme-switcher">
-          <button class="theme-btn active" id="btnThemeLight" title="Modo Claro">
-            <i class="bi bi-sun"></i>
-          </button>
-          <button class="theme-btn" id="btnThemeDark" title="Modo Escuro">
-            <i class="bi bi-moon"></i>
-          </button>
-        </div>
-
-        <!-- Notificações -->
-        <button class="btn-icon notification-btn" title="Notificações">
-          <i class="bi bi-bell"></i>
-          <span class="dot-badge">3</span>
-        </button>
-
-        <!-- Avatar Topo -->
-        <div class="header-avatar">
-          <i class="bi bi-person"></i>
-        </div>
-      </div>
-    </header>
-
-    <!-- Formulário e Resumo -->
-    <div class="dashboard-content nova-visita-grid">
-      
-      <!-- Formulário de Cadastro -->
-      <section class="card-panel">
-        <h2 class="form-section-title">Informações da Visita</h2>
-
-        <form id="formNovaVisita" class="visit-form">
-          <div class="form-row">
-            <!-- Cliente -->
-            <div class="form-group">
-              <label for="clienteNome">Nome do Cliente / Visitante *</label>
-            <div class="input-with-icon">
-              <i class="bi bi-person"></i>
-              <input 
-                type="text" 
-                id="clienteNome" 
-                name="clienteNome" 
-                placeholder="Digite o nome completo do cliente ou visitante" 
+            <label for="clienteNome">Cliente / Visitante</label>
+            <input
+                type="text"
+                id="clienteNome"
+                name="clienteNome"
+                placeholder="Digite o nome completo do cliente ou visitante"
                 required
-              >
-            </div>
-          </div>
+            >
 
-          <!-- NOVO CAMPO: Turma -->
-            <div class="form-group">
-              <label for="turmaNome">Turma *</label>
-              <div class="input-with-icon">
-                <i class="bi bi-mortarboard"></i> <!-- Ícone de chapéu de formatura/turma -->
-                <input 
-                  type="text" 
-                  id="turmaNome" 
-                  name="turmaNome" 
-                  placeholder="Ex: Turma 3B, Redes de Computadores - Manhã" 
-                  required
-                >
-               </div>
-            </div>
+            <label for="turmaNome">Turma</label>
+            <input
+                type="text"
+                id="turmaNome"
+                name="turmaNome"
+                placeholder="Ex: Turma 3B, Redes de Computadores - Manhã"
+                required
+            >
 
-            <!-- Técnico -->
-            <div class="form-group">
-              <label for="selectTecnico"><i class="bi bi-tools"></i> Técnico *</label>
-              <select id="selectTecnico" required>
+            <label for="selectTecnico">Técnico</label>
+            <select id="selectTecnico" name="tecnico" required>
                 <option value="" disabled selected>Selecione o técnico</option>
                 <option value="Lucas Andrade">Lucas Andrade</option>
                 <option value="Ana Beatriz">Ana Beatriz</option>
                 <option value="Carlos Souza">Carlos Souza</option>
-              </select>
-            </div>
-          </div>
+            </select>
 
-          <div class="form-row">
-            <!-- Data da Visita -->
-            <div class="form-group">
-              <label for="inputData"><i class="bi bi-calendar-event"></i> Data da Visita *</label>
-              <input type="date" id="inputData" required>
-            </div>
+            <label for="inputData">Data</label>
+            <input type="date" id="inputData" name="data" required>
 
-            <!-- Horário -->
-            <div class="form-group">
-              <label for="inputHorario"><i class="bi bi-clock"></i> Horário *</label>
-              <input type="time" id="inputHorario" value="08:00" required>
-            </div>
-          </div>
+            <label for="inputHorario">Horário</label>
+            <input type="time" id="inputHorario" name="horario" value="08:00" required>
 
-          <!-- Endereço -->
-          <div class="form-group full-width">
-            <label for="inputEndereco"><i class="bi bi-geo-alt"></i> Endereço *</label>
-            <input type="text" id="inputEndereco" placeholder="Digite o endereço completo" required>
-          </div>
+            <label for="inputEndereco">Endereço</label>
+            <input
+                type="text"
+                id="inputEndereco"
+                name="endereco"
+                placeholder="Digite o endereço completo"
+                required
+            >
 
-          <!-- Observações -->
-          <div class="form-group full-width">
-            <label for="inputObservacoes"><i class="bi bi-card-text"></i> Observações</label>
-            <textarea id="inputObservacoes" rows="4" placeholder="Adicione informações adicionais (opcional)"></textarea>
-          </div>
-        </form>
-      </section>
+            <label for="inputObservacoes">Observações</label>
+            <textarea
+                id="inputObservacoes"
+                name="observacoes"
+                rows="4"
+                placeholder="Adicione informações adicionais (opcional)"
+            ></textarea>
 
-      <!-- Painel de Resumo (Direita) -->
-      <aside class="right-column">
-        <div class="card-panel summary-panel">
-          <h2>Resumo</h2>
-
-          <div class="summary-card-box">
-            
-            <div class="summary-item">
-              <div class="summary-icon"><i class="bi bi-calendar-check"></i></div>
-              <div class="summary-info">
-                <span class="summary-label">Visita</span>
-                <span class="summary-value" id="previewDataHora">26/09/2026 - 08:00</span>
-              </div>
-            </div>
-
-  <!-- Demais campos (data, hora, técnico, etc) -->
-
-  <button type="submit" class="btn-primary">Agendar Visita</button>
-</form>
-            <div class="summary-item">
-              <div class="summary-icon"><i class="bi bi-person-badge"></i></div>
-              <div class="summary-info">
-                <span class="summary-label">Técnico</span>
-                <span class="summary-value muted" id="previewTecnico">Selecione um técnico</span>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="summary-actions">
-            <button type="submit" form="formNovaVisita" class="btn-primary-action full-btn">
-              <i class="bi bi-calendar-plus"></i> Salvar Visita
+            <button type="submit" class="btn-primary-action full-btn">
+                Salvar Visita
             </button>
-            <a href="index.html" class="btn-secondary-action">Cancelar</a>
-          </div>
-        </div>
-      </aside>
+        </form>
 
-    </div>
-  </main>
-
-  <script src="script.js"></script>
+        <p><a href="/">Voltar para o início</a></p>
+    </main>
 </body>
 </html>

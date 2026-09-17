@@ -37,14 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', toggleMobileMenu);
   if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleMobileMenu);
 
-  // Alternar Menu Ativo na Sidebar
+  // Marcar o item ativo do menu lateral com base na página atual
+  // (antes isso era feito com um clique + e.preventDefault(), o que
+  // impedia os links de navegar de verdade)
   const menuItems = document.querySelectorAll('.menu-item');
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
   menuItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      menuItems.forEach(i => i.classList.remove('active'));
+    const linkPage = item.getAttribute('href');
+    if (linkPage === currentPage) {
       item.classList.add('active');
-    });
+    } else {
+      item.classList.remove('active');
+    }
   });
 
   // Switcher de Tema
@@ -89,34 +94,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- LÓGICA DA TELA DE NOVA VISITA (Atualização Dinâmica do Resumo) ---
-  const selectCliente = document.getElementById('selectCliente');
-  const selectTecnico = document.getElementById('selectTecnico');
-  const inputData = document.getElementById('inputData');
-  const inputHorario = document.getElementById('inputHorario');
+const selectCliente = document.getElementById('selectCliente');
+const selectTecnico = document.getElementById('selectTecnico');
+const inputData = document.getElementById('inputData');
+const inputHorario = document.getElementById('inputHorario');
 
-  const previewCliente = document.getElementById('previewCliente');
-  const previewTecnico = document.getElementById('previewTecnico');
-  const previewDataHora = document.getElementById('previewDataHora');
-  const formNovaVisita = document.getElementById('formNovaVisita');
+const previewCliente = document.getElementById('previewCliente');
+const previewTecnico = document.getElementById('previewTecnico');
+const previewDataHora = document.getElementById('previewDataHora');
+const formNovaVisita = document.getElementById('formNovaVisita');
 
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
   // Captura o formulário de Nova Visita
-  const formNovaVisita = document.getElementById('formNovaVisita');
-
   if (formNovaVisita) {
     formNovaVisita.addEventListener('submit', function (event) {
       event.preventDefault(); // Impede o recarregamento padrão da página
 
       // Captura o campo de texto do cliente
       const inputCliente = document.getElementById('clienteNome');
+      const inputTurma = document.getElementById('turmaNome');
 
       if (!inputCliente || !inputCliente.value.trim()) {
         alert('Por favor, preencha o nome do cliente / visitante.');
         return;
       }
 
+      // Validação da Turma (quando o campo existir no formulário)
+      if (inputTurma && !inputTurma.value.trim()) {
+        alert('Por favor, informe a turma.');
+        return;
+      }
+
       const nomeDigitado = inputCliente.value.trim();
+      const turmaDigitada = inputTurma ? inputTurma.value.trim() : '';
+
+      console.log('Dados do agendamento:', {
+        cliente: nomeDigitado,
+        turma: turmaDigitada
+      });
 
       // Sucesso
       alert('Visita agendada com sucesso para: ' + nomeDigitado);
@@ -128,128 +144,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-  // Atualizar técnico no resumo
-  if (selectTecnico && previewTecnico) {
-    selectTecnico.addEventListener('change', (e) => {
-      previewTecnico.textContent = e.target.value;
-      previewTecnico.classList.remove('muted');
-    });
-  }
+// Atualizar técnico no resumo
+if (selectTecnico && previewTecnico) {
+  selectTecnico.addEventListener('change', (e) => {
+    previewTecnico.textContent = e.target.value;
+    previewTecnico.classList.remove('muted');
+  });
+}
 
-  // Atualizar data/hora no resumo
-  function updateDataHora() {
-    if (inputData && inputHorario && previewDataHora) {
-      let dataVal = inputData.value; //AAAA-MM-DD
-      if (dataVal) {
-        const partes = dataVal.split('-');
-        dataVal = `${partes[2]}/${partes[1]}/${partes[0]}`;
-      } else {
-        dataVal = '26/09/2026';
-      }
-      const horaVal = inputHorario.value || '08:00';
-      previewDataHora.textContent = `${dataVal} - ${horaVal}`;
+// Atualizar data/hora no resumo
+function updateDataHora() {
+  if (inputData && inputHorario && previewDataHora) {
+    let dataVal = inputData.value; //AAAA-MM-DD
+    if (dataVal) {
+      const partes = dataVal.split('-');
+      dataVal = `${partes[2]}/${partes[1]}/${partes[0]}`;
+    } else {
+      dataVal = '26/09/2026';
     }
+    const horaVal = inputHorario.value || '08:00';
+    previewDataHora.textContent = `${dataVal} - ${horaVal}`;
   }
+}
 
-  if (inputData) inputData.addEventListener('change', updateDataHora);
-  if (inputHorario) inputHorario.addEventListener('change', updateDataHora);
+if (inputData) inputData.addEventListener('change', updateDataHora);
+if (inputHorario) inputHorario.addEventListener('change', updateDataHora);
 
-  // Submeter formulário
-  if (formNovaVisita) {
-    formNovaVisita.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Visita agendada com sucesso!');
-      window.location.href = 'index.html'; // Redireciona para o dashboard
-    });
-  }
+// --- LÓGICA DE DETALHES DA VISITA (Carregamento Dinâmico de Parâmetros da URL) ---
+const urlParams = new URLSearchParams(window.location.search);
+const clienteParam = urlParams.get('cliente');
+const tecnicoParam = urlParams.get('tecnico');
+const enderecoParam = urlParams.get('endereco');
 
-  // --- LÓGICA DE DETALHES DA VISITA (Carregamento Dinâmico de Parâmetros da URL) ---
-  const urlParams = new URLSearchParams(window.location.search);
-  const clienteParam = urlParams.get('cliente');
-  const tecnicoParam = urlParams.get('tecnico');
-  const enderecoParam = urlParams.get('endereco');
+if (clienteParam) {
+  const visitClientLabel = document.getElementById('visitClientLabel');
+  if (visitClientLabel) visitClientLabel.textContent = clienteParam;
+}
 
-  if (clienteParam) {
-    const visitClientLabel = document.getElementById('visitClientLabel');
-    if (visitClientLabel) visitClientLabel.textContent = clienteParam;
-  }
+if (tecnicoParam) {
+  const visitTechLabel = document.getElementById('visitTechLabel');
+  if (visitTechLabel) visitTechLabel.textContent = tecnicoParam;
+}
 
-  if (tecnicoParam) {
-    const visitTechLabel = document.getElementById('visitTechLabel');
-    if (visitTechLabel) visitTechLabel.textContent = tecnicoParam;
-  }
+if (enderecoParam) {
+  const visitAddressLabel = document.getElementById('visitAddressLabel');
+  if (visitAddressLabel) visitAddressLabel.textContent = `Endereço: ${enderecoParam}`;
+}
 
-  if (enderecoParam) {
-    const visitAddressLabel = document.getElementById('visitAddressLabel');
-    if (visitAddressLabel) visitAddressLabel.textContent = `Endereço: ${enderecoParam}`;
-  }
+// --- LÓGICA DO MODAL DE ADICIONAR PARTICIPANTE ---
+const modalAddParticipant = document.getElementById('modalAddParticipant');
+const btnOpenAddParticipant = document.getElementById('btnOpenAddParticipant');
+const btnCloseParticipantModal = document.getElementById('btnCloseParticipantModal');
+const btnCancelModal = document.getElementById('btnCancelModal');
+const formAddParticipant = document.getElementById('formAddParticipant');
 
-  // --- LÓGICA DO MODAL DE ADICIONAR PARTICIPANTE ---
-  const modalAddParticipant = document.getElementById('modalAddParticipant');
-  const btnOpenAddParticipant = document.getElementById('btnOpenAddParticipant');
-  const btnCloseParticipantModal = document.getElementById('btnCloseParticipantModal');
-  const btnCancelModal = document.getElementById('btnCancelModal');
-  const formAddParticipant = document.getElementById('formAddParticipant');
+function openModal() {
+  if (modalAddParticipant) modalAddParticipant.classList.add('active');
+}
 
-  function openModal() {
-    if (modalAddParticipant) modalAddParticipant.classList.add('active');
-  }
+function closeModal() {
+  if (modalAddParticipant) modalAddParticipant.classList.remove('active');
+}
 
-  function closeModal() {
-    if (modalAddParticipant) modalAddParticipant.classList.remove('active');
-  }
+if (btnOpenAddParticipant) btnOpenAddParticipant.addEventListener('click', openModal);
+if (btnCloseParticipantModal) btnCloseParticipantModal.addEventListener('click', closeModal);
+if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
-  if (btnOpenAddParticipant) btnOpenAddParticipant.addEventListener('click', openModal);
-  if (btnCloseParticipantModal) btnCloseParticipantModal.addEventListener('click', closeModal);
-  if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
-
-  if (formAddParticipant) {
-    formAddParticipant.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Participante adicionado com sucesso!');
-      closeModal();
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-
-  const formNovaVisita = document.getElementById('formNovaVisita');
-
-  if (formNovaVisita) {
-    formNovaVisita.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      // Captura os campos
-      const inputCliente = document.getElementById('clienteNome');
-      const inputTurma = document.getElementById('turmaNome');
-
-      // Validação do Cliente
-      if (!inputCliente || !inputCliente.value.trim()) {
-        alert('Por favor, preencha o nome do cliente / visitante.');
-        return;
-      }
-
-      // Validação da Turma
-      if (!inputTurma || !inputTurma.value.trim()) {
-        alert('Por favor, informe a turma.');
-        return;
-      }
-
-      const nomeDigitado = inputCliente.value.trim();
-      const turmaDigitada = inputTurma.value.trim();
-
-      console.log('Dados do agendamento:', {
-        cliente: nomeDigitado,
-        turma: turmaDigitada
-      });
-
-      // Feedback visual e redirecionamento
-      alert(`Visita agendada com sucesso!\nCliente: ${nomeDigitado}\nTurma: ${turmaDigitada}`);
-      window.location.href = 'index.html';
-    });
-  }
-
-});
+if (formAddParticipant) {
+  formAddParticipant.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Participante adicionado com sucesso!');
+    closeModal();
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -291,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnConfirmCancel.addEventListener('click', () => {
       // Atualiza as tags de status visualmente na página
       const statusTags = document.querySelectorAll('#mainStatusTag, .detail-header-title .tag');
-      
+
       statusTags.forEach(tag => {
         tag.textContent = 'Cancelada';
         tag.className = 'tag tag-red'; // Aplica a cor vermelha de cancelado
@@ -305,46 +272,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- LÓGICA DE PESQUISA E FILTRO DA TABELA DE VISITAS ---
-  const inputSearchVisits = document.getElementById('inputSearchVisits');
-  const selectStatusFilter = document.getElementById('selectStatusFilter');
-  const visitsTable = document.getElementById('visitsTable');
+const inputSearchVisits = document.getElementById('inputSearchVisits');
+const selectStatusFilter = document.getElementById('selectStatusFilter');
+const visitsTable = document.getElementById('visitsTable');
 
-  function filterVisitsTable() {
-    if (!visitsTable) return;
+function filterVisitsTable() {
+  if (!visitsTable) return;
 
-    const searchTerm = inputSearchVisits ? inputSearchVisits.value.toLowerCase().trim() : '';
-    const selectedStatus = selectStatusFilter ? selectStatusFilter.value : 'todos';
-    
-    const rows = visitsTable.querySelectorAll('tbody tr');
-    let visibleCount = 0;
+  const searchTerm = inputSearchVisits ? inputSearchVisits.value.toLowerCase().trim() : '';
+  const selectedStatus = selectStatusFilter ? selectStatusFilter.value : 'todos';
 
-    rows.forEach(row => {
-      const textRow = row.textContent.toLowerCase();
-      const statusTag = row.querySelector('.tag') ? row.querySelector('.tag').textContent.trim() : '';
+  const rows = visitsTable.querySelectorAll('tbody tr');
+  let visibleCount = 0;
 
-      const matchesSearch = textRow.includes(searchTerm);
-      const matchesStatus = (selectedStatus === 'todos') || (statusTag === selectedStatus);
+  rows.forEach(row => {
+    const textRow = row.textContent.toLowerCase();
+    const statusTag = row.querySelector('.tag') ? row.querySelector('.tag').textContent.trim() : '';
 
-      if (matchesSearch && matchesStatus) {
-        row.style.display = '';
-        visibleCount++;
-      } else {
-        row.style.display = 'none';
-      }
-    });
+    const matchesSearch = textRow.includes(searchTerm);
+    const matchesStatus = (selectedStatus === 'todos') || (statusTag === selectedStatus);
 
-    // Atualiza contador no rodapé se existir
-    const paginationSummary = document.getElementById('paginationSummary');
-    if (paginationSummary) {
-      paginationSummary.textContent = `Mostrando ${visibleCount} visita(s) encontrada(s)`;
+    if (matchesSearch && matchesStatus) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
     }
-  }
+  });
 
-  // Eventos de digitação e mudança de filtro
-  if (inputSearchVisits) {
-    inputSearchVisits.addEventListener('input', filterVisitsTable);
+  // Atualiza contador no rodapé se existir
+  const paginationSummary = document.getElementById('paginationSummary');
+  if (paginationSummary) {
+    paginationSummary.textContent = `Mostrando ${visibleCount} visita(s) encontrada(s)`;
   }
+}
 
-  if (selectStatusFilter) {
-    selectStatusFilter.addEventListener('change', filterVisitsTable);
-  }
+// Eventos de digitação e mudança de filtro
+if (inputSearchVisits) {
+  inputSearchVisits.addEventListener('input', filterVisitsTable);
+}
+
+if (selectStatusFilter) {
+  selectStatusFilter.addEventListener('change', filterVisitsTable);
+}
