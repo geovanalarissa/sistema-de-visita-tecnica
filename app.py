@@ -7,16 +7,16 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/nova-visita")
+@app.route("/nova-visita.html")
 def nova_visita():
     return render_template("nova-visita.html")
 
-@app.route("/visitas")
+@app.route("/visitas.html")
 def visitas():
     return render_template("visitas.html")
 
 
-@app.route("/visitas", methods=["POST"])
+@app.route("/visitas.html", methods=["POST"])
 def criar_visita():
     dados = request.form
 
