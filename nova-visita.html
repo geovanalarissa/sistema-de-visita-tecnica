@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Visita</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <main>
+        <h1>Nova Visita</h1>
+
+        <form id="formNovaVisita" class="visit-form" method="POST" action="/visitas">
+
+            <label for="clienteNome">Cliente / Visitante</label>
+            <input
+                type="text"
+                id="clienteNome"
+                name="clienteNome"
+                placeholder="Digite o nome completo do cliente ou visitante"
+                required
+            >
+
+            <label for="turmaNome">Turma</label>
+            <input
+                type="text"
+                id="turmaNome"
+                name="turmaNome"
+                placeholder="Ex: Turma 3B, Redes de Computadores - Manhã"
+                required
+            >
+
+            <label for="selectTecnico">Técnico</label>
+            <select id="selectTecnico" name="tecnico" required>
+                <option value="" disabled selected>Selecione o técnico</option>
+                <option value="Lucas Andrade">Lucas Andrade</option>
+                <option value="Ana Beatriz">Ana Beatriz</option>
+                <option value="Carlos Souza">Carlos Souza</option>
+            </select>
+
+            <label for="inputData">Data</label>
+            <input type="date" id="inputData" name="data" required>
+
+            <label for="inputHorario">Horário</label>
+            <input type="time" id="inputHorario" name="horario" value="08:00" required>
+
+            <label for="inputEndereco">Endereço</label>
+            <input
+                type="text"
+                id="inputEndereco"
+                name="endereco"
+                placeholder="Digite o endereço completo"
+                required
+            >
+
+            <label for="inputObservacoes">Observações</label>
+            <textarea
+                id="inputObservacoes"
+                name="observacoes"
+                rows="4"
+                placeholder="Adicione informações adicionais (opcional)"
+            ></textarea>
+
+            <button type="submit" class="btn-primary-action full-btn">
+                Salvar Visita
+            </button>
+        </form>
+
+        <p><a href="/">Voltar para o início</a></p>
+    </main>
+</body>
+</html>
